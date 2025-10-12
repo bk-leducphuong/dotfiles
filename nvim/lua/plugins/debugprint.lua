@@ -1,7 +1,5 @@
+-- Debug Print
 return {
-
-  -- Debug Print
-  {
     "andrewferrier/debugprint.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
@@ -43,5 +41,5 @@ return {
       vim.keymap.set("n", "<leader>dd", "g?d", { remap = true, desc = "Delete all debug prints" })
       vim.keymap.set("v", "<leader>dv", "g?v", { remap = true, desc = "Debug variable" })
     end,
-  },
 }
+
