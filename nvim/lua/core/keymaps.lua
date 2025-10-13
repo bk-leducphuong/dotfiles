@@ -12,10 +12,10 @@ keymap.set("n", "<leader>se", "<C-w>=", { desc = "Equal width" })
 keymap.set("n", "<leader>sx", ":close<CR>", { desc = "Close split" })
 
 -- Navigate between splits
-keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
+-- keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
+-- keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
+-- keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
+-- keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
 -- Tab management
 keymap.set("n", "<leader>to", ":tabnew<CR>", { desc = "Open new tab" })

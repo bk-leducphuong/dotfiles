@@ -34,7 +34,32 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim", -- JSON schemas
 		},
-		config = function()
+    config = function()
+       -- Diagnostic configuration
+      vim.diagnostic.config({
+        virtual_text = {
+          prefix = "●",
+          source = "if_many",
+        },
+        signs = true,
+        underline = true,
+        update_in_insert = false,
+        severity_sort = true,
+        float = {
+          border = "rounded",
+          source = "always",
+          header = "",
+          prefix = "",
+        },
+      })
+
+      -- Diagnostic signs
+      local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
+      for type, icon in pairs(signs) do
+        local hl = "DiagnosticSign" .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
+      end	
+
 			local lspconfig = require("lspconfig")
 			-- 🛠️ 1. Define the 'on_attach' function to set keymaps when a server attaches.
 			-- This is the new, recommended way to set LSP keymaps.
@@ -51,7 +76,10 @@ return {
 				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
 				keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
 				keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-				keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+
+         -- Additional diagnostic keymaps
+        keymap.set("n", "<leader>dl", "<cmd>lua vim.diagnostic.setloclist()<CR>", { desc = "Diagnostics location list" })
+        keymap.set("n", "<leader>dq", "<cmd>lua vim.diagnostic.setqflist()<CR>", { desc = "Diagnostics quickfix list" })	keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 			end
 
 			-- 🤝 2. Get LSP capabilities from nvim-cmp.

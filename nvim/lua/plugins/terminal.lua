@@ -7,7 +7,7 @@
       require("toggleterm").setup({
         size = function(term)
           if term.direction == "horizontal" then
-            return 45
+            return 25
           elseif term.direction == "vertical" then
             return vim.o.columns * 0.4
           end
@@ -16,18 +16,25 @@
         hide_numbers = true,
         shade_terminals = true,
         start_in_insert = true,
-        insert_mappings = true,
-        terminal_mappings = true,
         persist_size = true,
         persist_mode = true,
-        direction = "horizontal", -- 'vertical' | 'horizontal' | 'tab' | 'float'
+        direction = "float", -- 'vertical' | 'horizontal' | 'tab' | 'float'
         close_on_exit = true,
         shell = vim.o.shell,
         auto_scroll = true,
         float_opts = {
           border = "curved",
           winblend = 0,
+          highlights = {
+            border = "Normal",
+            background = "Normal",
+          }
         },
+        -- This is important for tmux integration
+        on_create = function()
+          vim.opt_local.foldcolumn = "0"
+          vim.opt_local.signcolumn = "no"
+        end,
       })
 
       -- Terminal keymaps
@@ -41,28 +48,75 @@
       end
 
       vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
-
-      -- Keybindings for numbered terminals
-      vim.keymap.set("n", "<leader>t1", "<cmd>1ToggleTerm<CR>", { desc = "Terminal 1" })
-      vim.keymap.set("n", "<leader>t2", "<cmd>2ToggleTerm<CR>", { desc = "Terminal 2" })
-      vim.keymap.set("n", "<leader>t3", "<cmd>3ToggleTerm<CR>", { desc = "Terminal 3" })
-      vim.keymap.set("n", "<leader>t4", "<cmd>4ToggleTerm<CR>", { desc = "Terminal 4" })
-      vim.keymap.set("n", "<leader>t5", "<cmd>5ToggleTerm<CR>", { desc = "Terminal 5" })
       
       -- Alternative with leader+number (easier to remember)
-      vim.keymap.set("n", "<leader>1", "<cmd>1ToggleTerm<CR>", { desc = "Terminal 1" })
-      vim.keymap.set("n", "<leader>2", "<cmd>2ToggleTerm<CR>", { desc = "Terminal 2" })
-      vim.keymap.set("n", "<leader>3", "<cmd>3ToggleTerm<CR>", { desc = "Terminal 3" })
-      vim.keymap.set("n", "<leader>4", "<cmd>4ToggleTerm<CR>", { desc = "Terminal 4" })
-      vim.keymap.set("n", "<leader>5", "<cmd>5ToggleTerm<CR>", { desc = "Terminal 5" })
+      -- vim.keymap.set("n", "<leader>1", "<cmd>1ToggleTerm<CR>", { desc = "Terminal 1" })
+      -- vim.keymap.set("n", "<leader>2", "<cmd>2ToggleTerm<CR>", { desc = "Terminal 2" })
+      -- vim.keymap.set("n", "<leader>3", "<cmd>3ToggleTerm<CR>", { desc = "Terminal 3" })
+      -- vim.keymap.set("n", "<leader>4", "<cmd>4ToggleTerm<CR>", { desc = "Terminal 4" })
+      -- vim.keymap.set("n", "<leader>5", "<cmd>5ToggleTerm<CR>", { desc = "Terminal 5" })
 
       -- Floating terminal for quick commands
       vim.keymap.set("n", "<leader>tf", "<cmd>ToggleTerm direction=float<CR>", { desc = "Floating terminal" })
-      
+
       -- Toggle all terminals
-      vim.keymap.set("n", "<leader>ta", "<cmd>ToggleTermToggleAll<CR>", { desc = "Toggle all terminals" })
+      -- vim.keymap.set("n", "<leader>ta", "<cmd>ToggleTermToggleAll<CR>", { desc = "Toggle all terminals" })
       
-      -- Main toggle
-      vim.keymap.set("n", "<C-\\>", "<cmd>ToggleTerm<CR>", { desc = "Toggle terminal" })
+       -- Create custom terminal commands
+      local Terminal = require('toggleterm.terminal').Terminal
+
+      -- Lazygit terminal
+      local lazygit = Terminal:new({
+        cmd = "lazygit",
+        dir = "git_dir",
+        direction = "float",
+        float_opts = {
+          border = "double",
+        },
+        on_open = function(term)
+          vim.cmd("startinsert!")
+          vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+        end,
+      })
+
+      function _LAZYGIT_TOGGLE()
+        lazygit:toggle()
+      end
+
+      local lazydocker = Terminal:new({
+        cmd = "lazydocker",
+        direction = "float",
+        float_opts = {
+          border = "double",
+        },
+        on_open = function(term)
+          vim.cmd("startinsert!")
+          vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+        end,
+      })
+      
+      function _LAZYDOCKER_TOGGLE()
+        lazydocker:toggle()
+      end
+
+      local gemini = Terminal:new({
+        cmd = "gemini",
+        direction = "float",
+        float_opts = {
+          border = "double",
+        },
+        on_open = function(term)
+          vim.cmd("startinsert!")
+          vim.api.nvim_buf_set_keymap(term.bufnr, "n", "q", "<cmd>close<CR>", {noremap = true, silent = true})
+        end,
+      })
+      
+      function _GEMINI_TOGGLE()
+        gemini:toggle()
+      end
+
+       vim.keymap.set('n', '<leader>gg', '<cmd>lua _LAZYGIT_TOGGLE()<cr>', { desc = 'Toggle lazygit' })
+       vim.keymap.set('n', '<leader>dd', '<cmd>lua _LAZYDOCKER_TOGGLE()<cr>', { desc = 'Toggle lazydocker' })
+       vim.keymap.set('n', '<leader>gmi', '<cmd>lua _GEMINI_TOGGLE()<cr>', { desc = 'Toggle gemini' })
     end,
   }

@@ -26,6 +26,11 @@ return {
   require("plugins.formatter"),
 
   -- DEBUG 
-  require("plugins.debugprint")
+  require("plugins.debugprint"),
+  require("plugins.trouble"),
+
+  --- TMUX
+  require("plugins.tmux"),
+  require("plugins.tmux-navigation"),
 }
 
