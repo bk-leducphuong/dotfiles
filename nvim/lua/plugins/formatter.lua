@@ -25,18 +25,18 @@ return {
       python = { "isort", "black" },
     },
     -- Define custom prettier options
-      formatters = {
-        prettier = {
-          prepend_args = {
-            "--no-semi",
-            "--trailing-comma=none",
-            "--single-quote=true",
-            "--print-width=80",
-            "--tab-width=2",
-            "--use-tabs=false",
-          },
-        },
-      },
+      -- formatters = {
+      --   prettier = {
+      --     prepend_args = {
+      --       "--no-semi",
+      --       "--trailing-comma=none",
+      --       "--single-quote=true",
+      --       "--print-width=80",
+      --       "--tab-width=2",
+      --       "--use-tabs=false",
+      --     },
+      --   },
+      -- },
     -- Set up format-on-save
     format_on_save = {
       -- These options will be passed to conform.format()
