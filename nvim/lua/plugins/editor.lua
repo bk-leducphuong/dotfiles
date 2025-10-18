@@ -4,9 +4,6 @@ return {
   -- Auto pairs
   { "windwp/nvim-autopairs", event = "InsertEnter", config = true },
 
-  -- Auto close tags
-  { "windwp/nvim-ts-autotag", dependencies = "nvim-treesitter/nvim-treesitter" },
-
   -- Commenting
   { "numToStr/Comment.nvim", config = true },
 

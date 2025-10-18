@@ -16,6 +16,7 @@ return {
 
   -- EDITING & UX
   require("plugins.editor"),
+  require("plugins.nvim-ts-autotag"),
 
   -- GIT
   require("plugins.version-control"),

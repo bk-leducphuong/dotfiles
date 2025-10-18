@@ -15,7 +15,8 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"ts_ls", -- TypeScript/JavaScript
-					"volar", -- Vue
+          "vls", -- Vue 2
+					"vue_ls", -- Vue 3
 					"eslint", -- ESLint
 					"html", -- HTML
 					"cssls", -- CSS
