@@ -11,6 +11,7 @@ return {
   require("plugins.treesitter"),
 
   -- LSP & COMPLETION
+  require("plugins.mason-workaround"),
   require("plugins.lsp"),
   require("plugins.completion"),
 
