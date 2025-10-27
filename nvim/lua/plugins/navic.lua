@@ -1,0 +1,46 @@
+-- Breadcrumbs - Shows code context in statusline
+return {
+  "SmiteshP/nvim-navic",
+  dependencies = "neovim/nvim-lspconfig",
+  config = function()
+    require("nvim-navic").setup({
+      icons = {
+        File          = "󰈙 ",
+        Module        = " ",
+        Namespace     = "󰌗 ",
+        Package       = " ",
+        Class         = "󰌗 ",
+        Method        = "󰆧 ",
+        Property      = " ",
+        Field         = " ",
+        Constructor   = " ",
+        Enum          = "󰕘",
+        Interface     = "󰕘",
+        Function      = "󰊕 ",
+        Variable      = "󰆧 ",
+        Constant      = "󰏿 ",
+        String        = " ",
+        Number        = "󰎠 ",
+        Boolean       = "◩ ",
+        Array         = "󰅪 ",
+        Object        = "󰅩 ",
+        Key           = "󰌋 ",
+        Null          = "󰟢 ",
+        EnumMember    = " ",
+        Struct        = "󰌗 ",
+        Event         = " ",
+        Operator      = "󰆕 ",
+        TypeParameter = "󰊄 ",
+      },
+      lsp = {
+        auto_attach = true,
+        preference = { "ts_ls", "volar" },
+      },
+      highlight = true,
+      separator = " > ",
+      depth_limit = 0,
+      depth_limit_indicator = "..",
+      safe_output = true,
+    })
+  end,
+}

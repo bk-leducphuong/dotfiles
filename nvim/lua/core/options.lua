@@ -48,3 +48,31 @@ opt.timeoutlen = 300
 
 -- Completion
 opt.completeopt = "menu,menuone,noselect"
+
+-- Folding (handled by nvim-ufo)
+opt.foldmethod = "expr"
+opt.foldexpr = "nvim_treesitter#foldexpr()"
+opt.foldlevelstart = 99
+opt.foldcolumn = "1"
+opt.foldenable = true
+
+-- Performance
+opt.lazyredraw = false
+opt.synmaxcol = 240
+
+-- Scroll offset
+opt.scrolloff = 8
+opt.sidescrolloff = 8
+
+-- Better completion experience
+opt.pumheight = 10
+
+-- Show whitespace characters
+opt.list = true
+opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
+
+-- Enable mouse support
+opt.mouse = "a"
+
+-- Conceal level for markdown
+opt.conceallevel = 0

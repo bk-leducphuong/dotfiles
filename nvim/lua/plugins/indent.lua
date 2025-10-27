@@ -4,7 +4,7 @@ return {
 		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			require("hlchunk").setup({
-				indent = {
+				chunk = {
 					enable = true,
 				},
 			})

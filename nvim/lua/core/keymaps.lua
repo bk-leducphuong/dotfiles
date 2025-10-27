@@ -39,3 +39,36 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 -- Better indenting
 keymap.set("v", "<", "<gv")
 keymap.set("v", ">", ">gv")
+
+-- Quick save all
+keymap.set("n", "<leader>wa", ":wa<CR>", { desc = "Save all files" })
+
+-- Close all buffers except current
+keymap.set("n", "<leader>bo", ":%bd|e#|bd#<CR>", { desc = "Close other buffers" })
+
+-- Toggle word wrap
+keymap.set("n", "<leader>uw", ":set wrap!<CR>", { desc = "Toggle word wrap" })
+
+-- Toggle line numbers
+keymap.set("n", "<leader>ul", ":set nu!<CR>", { desc = "Toggle line numbers" })
+
+-- Toggle relative line numbers
+keymap.set("n", "<leader>ur", ":set rnu!<CR>", { desc = "Toggle relative numbers" })
+
+-- Move to beginning/end of line
+keymap.set({ "n", "v" }, "H", "^", { desc = "Go to beginning of line" })
+keymap.set({ "n", "v" }, "L", "$", { desc = "Go to end of line" })
+
+-- Resize windows with arrows
+keymap.set("n", "<C-Up>", ":resize +2<CR>", { desc = "Increase window height" })
+keymap.set("n", "<C-Down>", ":resize -2<CR>", { desc = "Decrease window height" })
+keymap.set("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
+keymap.set("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
+
+-- Quick fix list navigation
+keymap.set("n", "[q", ":cprev<CR>", { desc = "Previous quickfix" })
+keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix" })
+
+-- Location list navigation
+keymap.set("n", "[l", ":lprev<CR>", { desc = "Previous location" })
+keymap.set("n", "]l", ":lnext<CR>", { desc = "Next location" })

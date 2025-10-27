@@ -21,7 +21,6 @@ return {
       yaml = { "prettier" },
       markdown = { "prettier" },
       graphql = { "prettier" },
-      lua = { "stylua" },
       python = { "isort", "black" },
     },
     -- Define custom prettier options

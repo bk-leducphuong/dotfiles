@@ -1,38 +1,53 @@
 -- ~/.config/nvim/lua/plugins/init.lua
 
 return {
-  -- UI & THEME
-  require("plugins.colorscheme"),
-  require("plugins.lualine"),
-  require("plugins.nvim-tree"),
+	-- UI & THEME
+	require("plugins.colorscheme"),
+	require("plugins.lualine"),
+	require("plugins.nvim-tree"),
+	require("plugins.dressing"),
+	require("plugins.indent"),
 
-  -- CORE FUNCTIONALITY
-  require("plugins.telescope"),
-  require("plugins.treesitter"),
+	-- CORE FUNCTIONALITY
+	require("plugins.telescope"),
+	require("plugins.treesitter"),
+	require("plugins.navic"),
 
-  -- LSP & COMPLETION
-  require("plugins.mason-workaround"),
-  require("plugins.lsp"),
-  require("plugins.completion"),
+	-- LSP & COMPLETION
+	require("plugins.mason-workaround"),
+	require("plugins.lsp"),
+	require("plugins.completion"),
+	require("plugins.typescript-tools"),
+	require("plugins.supermaven"),
 
-  -- EDITING & UX
-  require("plugins.editor"),
-  require("plugins.nvim-ts-autotag"),
+	-- EDITING & UX
+	require("plugins.editor"),
+	require("plugins.nvim-ts-autotag"),
+	require("plugins.better-escape"),
+	require("plugins.mini"),
+	require("plugins.ufo"),
 
-  -- GIT
-  require("plugins.version-control"),
+	-- CODE NAVIGATION & ANALYSIS
+	require("plugins.symbols-outline"),
+	require("plugins.bqf"),
 
-  -- UTILITIES
-  require("plugins.terminal"),
-  require("plugins.linting"),
-  require("plugins.formatter"),
+	-- TYPESCRIPT/JAVASCRIPT TOOLS
+	require("plugins.package-info"),
+	require("plugins.refactoring"),
 
-  -- DEBUG 
-  require("plugins.debugprint"),
-  require("plugins.trouble"),
+	-- GIT
+	require("plugins.version-control"),
 
-  --- TMUX
-  require("plugins.tmux"),
-  require("plugins.tmux-navigation"),
+	-- UTILITIES
+	require("plugins.terminal"),
+	require("plugins.linting"),
+	require("plugins.formatter"),
+	require("plugins.persistence"),
+
+	-- DEBUG
+	require("plugins.debugprint"),
+	require("plugins.trouble"),
+
+	-- TMUX
+	require("plugins.tmux-navigation"),
 }
-
