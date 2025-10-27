@@ -21,10 +21,8 @@ vim.g.maplocalleader = " "
 
 -- Load plugins from the `lua/plugins` directory
 require("lazy").setup("plugins", {
-	opts = {
-		rocks = {
-			hererocks = false,
-		},
+	rocks = {
+		enabled = false,
 	},
 })
 

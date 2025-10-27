@@ -22,21 +22,40 @@ return {
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "williamboman/mason.nvim" },
 		config = function()
+			local servers = {
+				volar = {
+					filetypes = { "vue" },
+				},
+				eslint = {
+					settings = {
+						format = { enable = true },
+					},
+				},
+				-- Add more server-specific configs here
+			}
+
 			require("mason-lspconfig").setup({
 				ensure_installed = {
-					"ts_ls",
 					"volar",
 					"eslint",
 					"html",
 					"cssls",
-					"tailwindcss",
-					"jsonls",
+					-- "tailwindcss",
+					-- "jsonls",
 				},
-				automatic_installation = true,
+				automatic_installation = false,
+				handlers = {
+					function(server_name)
+						if server_name == "tsserver" or server_name == "ts_ls" then
+							return
+						end
+						local opts = servers[server_name] or {}
+						require("lspconfig")[server_name].setup(opts)
+					end,
+				},
 			})
 		end,
 	},
-
 	-- LSP Configuration
 	{
 		"neovim/nvim-lspconfig",
@@ -173,132 +192,27 @@ return {
 						vim.lsp.buf.format({ async = true })
 					end, vim.tbl_extend("force", opts, { desc = "Format document" }))
 				end
+
+				-- Make on_attach available to other plugin configs (e.g., typescript-tools)
+				vim.g._global_lsp_on_attach = on_attach
 			end
 
 			-- Get capabilities from nvim-cmp
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
 			local lspconfig = require("lspconfig")
-			local mason_registry = require("mason-registry")
-
-			-- Get Vue TypeScript Plugin path
-			local vue_language_server_path = mason_registry.get_package("vue-language-server"):get_install_path()
-				.. "/node_modules/@vue/language-server"
-
-			-- TypeScript/JavaScript (with Vue support)
-			lspconfig.ts_ls.setup({
-				on_attach = function(client, bufnr)
-					on_attach(client, bufnr)
-					local opts = { buffer = bufnr, silent = true, noremap = true }
-
-					-- TypeScript-specific keymaps
-					vim.keymap.set(
-						"n",
-						"<leader>co",
-						"<cmd>TSToolsOrganizeImports<CR>",
-						vim.tbl_extend("force", opts, { desc = "Organize imports" })
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>cR",
-						"<cmd>TSToolsRenameFile<CR>",
-						vim.tbl_extend("force", opts, { desc = "Rename file" })
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>ci",
-						"<cmd>TSToolsAddMissingImports<CR>",
-						vim.tbl_extend("force", opts, { desc = "Add missing imports" })
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>cu",
-						"<cmd>TSToolsRemoveUnused<CR>",
-						vim.tbl_extend("force", opts, { desc = "Remove unused imports" })
-					)
-					vim.keymap.set(
-						"n",
-						"<leader>cf",
-						"<cmd>TSToolsFixAll<CR>",
-						vim.tbl_extend("force", opts, { desc = "Fix all" })
-					)
-					vim.keymap.set(
-						"n",
-						"gD",
-						"<cmd>TSToolsGoToSourceDefinition<CR>",
-						vim.tbl_extend("force", opts, { desc = "Go to source definition" })
-					)
-				end,
-				capabilities = capabilities,
-				init_options = {
-					plugins = {
-						{
-							name = "@vue/typescript-plugin",
-							location = vue_language_server_path,
-							languages = { "vue" },
-						},
-					},
-					preferences = {
-						-- Disable inlay hints to save memory
-						includeInlayParameterNameHints = "none",
-						includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-						includeInlayFunctionParameterTypeHints = false,
-						includeInlayVariableTypeHints = false,
-						includeInlayPropertyDeclarationTypeHints = false,
-						includeInlayFunctionLikeReturnTypeHints = false,
-						includeInlayEnumMemberValueHints = false,
-						importModuleSpecifierPreference = "relative",
-						importModuleSpecifierEnding = "auto",
-						-- Performance optimizations
-						disableSuggestions = false,
-					},
-					-- Set memory limit for TypeScript server (in MB)
-					maxTsServerMemory = 4096,
-				},
-				settings = {
-					typescript = {
-						inlayHints = {
-							includeInlayParameterNameHints = "none",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-							includeInlayFunctionParameterTypeHints = false,
-							includeInlayVariableTypeHints = false,
-							includeInlayPropertyDeclarationTypeHints = false,
-							includeInlayFunctionLikeReturnTypeHints = false,
-							includeInlayEnumMemberValueHints = false,
-						},
-						-- Performance settings
-						tsserver = {
-							maxTsServerMemory = 4096,
-						},
-					},
-					javascript = {
-						inlayHints = {
-							includeInlayParameterNameHints = "none",
-							includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-							includeInlayFunctionParameterTypeHints = false,
-							includeInlayVariableTypeHints = false,
-							includeInlayPropertyDeclarationTypeHints = false,
-							includeInlayFunctionLikeReturnTypeHints = false,
-							includeInlayEnumMemberValueHints = false,
-						},
-					},
-				},
-				filetypes = {
-					"javascript",
-					"javascriptreact",
-					"javascript.jsx",
-					"typescript",
-					"typescriptreact",
-					"typescript.tsx",
-					"vue",
-				},
-			})
-
 			-- Volar (Vue)
-			lspconfig.volar.setup({
+			-- Renamed from 'volar' to 'vue_ls'
+			lspconfig.vue_ls.setup({
+				root_dir = function(...)
+					return require("lspconfig.util").root_pattern(".git")(...)
+				end,
 				on_attach = on_attach,
 				capabilities = capabilities,
+				-- Restrict to only Vue files to avoid TS/JS takeover
+				filetypes = { "vue" },
 			})
+
+			-- TypeScript/JavaScript is handled by typescript-tools.nvim
 
 			-- ESLint
 			lspconfig.eslint.setup({
@@ -322,33 +236,38 @@ return {
 			})
 
 			-- Tailwind CSS
-			lspconfig.tailwindcss.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = {
-					tailwindCSS = {
-						experimental = {
-							classRegex = {
-								{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
-								{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
-							},
-						},
-					},
-				},
-			})
+			-- lspconfig.tailwindcss.setup({
+			-- 	root_dir = function(...)
+			-- 		return require("lspconfig.util").root_pattern(".git", "tailwind.config.js", "tailwind.config.cjs")(
+			-- 			...
+			-- 		)
+			-- 	end,
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	settings = {
+			-- 		tailwindCSS = {
+			-- 			experimental = {
+			-- 				classRegex = {
+			-- 					{ "cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]" },
+			-- 					{ "cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)" },
+			-- 				},
+			-- 			},
+			-- 		},
+			-- 	},
+			-- })
 
 			-- JSON
-			lspconfig.jsonls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				filetypes = { "json", "jsonc" },
-				settings = {
-					json = {
-						schemas = require("schemastore").json.schemas(),
-						validate = { enable = true },
-					},
-				},
-			})
+			-- 	lspconfig.jsonls.setup({
+			-- 		on_attach = on_attach,
+			-- 		capabilities = capabilities,
+			-- 		filetypes = { "json", "jsonc" },
+			-- 		settings = {
+			-- 			json = {
+			-- 				schemas = require("schemastore").json.schemas(),
+			-- 				validate = { enable = true },
+			-- 			},
+			-- 		},
+			-- 	})
 		end,
 	},
 }

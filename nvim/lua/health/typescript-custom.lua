@@ -19,7 +19,7 @@ M.check = function()
   local clients = vim.lsp.get_active_clients()
   local ts_client = nil
   for _, client in ipairs(clients) do
-    if client.name == "ts_ls" or client.name == "tsserver" then
+    if client.name == "ts_ls" or client.name == "tsserver" or client.name == "typescript-tools" then
       ts_client = client
       break
     end
@@ -29,8 +29,13 @@ M.check = function()
     vim.health.ok("TypeScript LSP is running (client: " .. ts_client.name .. ")")
     
     -- Check memory settings
+    local mem
     if ts_client.config.init_options and ts_client.config.init_options.maxTsServerMemory then
-      local mem = ts_client.config.init_options.maxTsServerMemory
+      mem = ts_client.config.init_options.maxTsServerMemory
+    elseif ts_client.config.settings and ts_client.config.settings.tsserver_max_memory then
+      mem = ts_client.config.settings.tsserver_max_memory
+    end
+    if mem then
       vim.health.ok("Memory limit configured: " .. mem .. "MB")
       
       if mem < 3072 then
@@ -44,6 +49,14 @@ M.check = function()
     -- Check inlay hints
     if ts_client.config.init_options and ts_client.config.init_options.preferences then
       local prefs = ts_client.config.init_options.preferences
+      if prefs.includeInlayParameterNameHints == "none" then
+        vim.health.ok("Inlay hints disabled (saves memory)")
+      else
+        vim.health.warn("Inlay hints enabled. This uses extra memory")
+        vim.health.info("Set includeInlayParameterNameHints to 'none' to save memory")
+      end
+    elseif ts_client.config.settings and ts_client.config.settings.tsserver_file_preferences then
+      local prefs = ts_client.config.settings.tsserver_file_preferences
       if prefs.includeInlayParameterNameHints == "none" then
         vim.health.ok("Inlay hints disabled (saves memory)")
       else
