@@ -5,6 +5,7 @@ return {
 	require("plugins.colorscheme"),
 	require("plugins.lualine"),
 	require("plugins.nvim-tree"),
+	require("plugins.welcome-screen"),
 	-- require("plugins.dressing"),
 	require("plugins.indent"),
 	require("plugins.noice"),
@@ -12,7 +13,7 @@ return {
 	-- CORE FUNCTIONALITY
 	require("plugins.telescope"),
 	require("plugins.treesitter"),
-	-- require("plugins.navic"),
+	require("plugins.navic"),
 
 	-- LSP & COMPLETION
 	require("plugins.mason-workaround"),
@@ -25,11 +26,11 @@ return {
 	require("plugins.editor"),
 	require("plugins.nvim-ts-autotag"),
 	require("plugins.better-escape"),
-	-- require("plugins.mini"),
+	require("plugins.mini"),
 	require("plugins.ufo"),
 
 	-- CODE NAVIGATION & ANALYSIS
-	-- require("plugins.symbols-outline"),
+	require("plugins.symbols-outline"),
 	-- require("plugins.bqf"),
 
 	-- TYPESCRIPT/JAVASCRIPT TOOLS

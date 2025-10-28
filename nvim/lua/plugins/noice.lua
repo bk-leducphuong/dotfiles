@@ -1,53 +1,89 @@
--- Noice (Better UI for messages, cmdline, and notifications)
+-- function for simplifying the views options
+local function getviews()
+	local views = {}
+	local all_views = {
+		"notify",
+		"split",
+		"vsplit",
+		"popup",
+		"mini",
+		"cmdline",
+		"cmdline_popup",
+		"cmdline_output",
+		"messages",
+		"confirm",
+		"hover",
+		"popupmenu",
+	}
+	for _, view in ipairs(all_views) do
+		-- disable the scrollbar for all views
+		views[view] = { scrollbar = false }
+	end
+	-- extra options
+	views["split"].enter = true
+	return views
+end
+
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
-	dependencies = {
-		"MunifTanjim/nui.nvim",
-		"rcarriga/nvim-notify",
-	},
-	config = function()
-		require("noice").setup({
-			lsp = {
-				-- Override markdown rendering so that **cmp** and other plugins use **Treesitter**
-				override = {
-					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true,
-				},
+	opts = {
+		-- views options
+		views = getviews(),
+		lsp = {
+			override = {
+				["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+				["vim.lsp.util.stylize_markdown"] = true,
 			},
-			-- You can enable a preset for easier configuration
-			presets = {
-				bottom_search = true, -- Use classic bottom search
-				command_palette = true, -- Position command palette at center
-				long_message_to_split = true, -- Long messages sent to split
-				inc_rename = false, -- Enables input dialog for inc-rename.nvim
-				lsp_doc_border = false, -- Add border to hover docs and signature help
+			signature = {
+				enabled = false,
 			},
-			routes = {
-				{
-					filter = {
-						event = "msg_show",
-						kind = "",
-						find = "written",
+			hover = {
+				enabled = false,
+			},
+		},
+		routes = {
+			{
+				filter = {
+					any = {
+						{
+							event = { "notify", "msg_show" },
+							find = "No information available",
+						},
+						{
+							event = { "notify", "msg_show" },
+							find = "minifiles is not supported",
+						},
+						{
+							event = "msg_show",
+							kind = "",
+							find = "written",
+						},
 					},
-					opts = { skip = true },
+				},
+				opts = {
+					skip = true,
 				},
 			},
-		})
-
-		-- Notify configuration
-		require("notify").setup({
-			background_colour = "#000000",
-			fps = 60,
-			render = "compact",
-			timeout = 3000,
-			top_down = false,
-		})
-
-		-- Keybindings
-		vim.keymap.set("n", "<leader>nd", "<cmd>NoiceDismiss<CR>", { desc = "Dismiss Noice notifications" })
-		vim.keymap.set("n", "<leader>nl", "<cmd>NoiceLast<CR>", { desc = "Show last message" })
-		-- vim.keymap.set("n", "<leader>nh", "<cmd>NoiceHistory<CR>", { desc = "Show message history" })
+		},
+		presets = {
+			bottom_search = false,
+			command_palette = true,
+			long_message_to_split = true,
+			lsp_doc_border = true,
+		},
+	},
+	config = function(_, opts)
+		local map = vim.keymap.set
+		if vim.o.filetype == "lazy" then
+			vim.cmd([[messages clear]])
+		end
+		require("noice").setup(opts)
+		-- keymaps
+		map("n", "<leader>nh", ":Noice history<cr>", { desc = "History", noremap = true, silent = true })
+		map("n", "<leader>nl", ":Noice last<cr>", { desc = "Last Msg", noremap = true, silent = true })
+		map("n", "<leader>na", ":Noice all<cr>", { desc = "All Msg", noremap = true, silent = true })
+		map("n", "<leader>nd", ":Noice dismiss<cr>", { desc = "Dismiss", noremap = true, silent = true })
+		map("n", "<leader>np", ":Noice pick<cr>", { desc = "Pick", noremap = true, silent = true })
 	end,
 }
