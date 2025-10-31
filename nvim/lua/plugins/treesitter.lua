@@ -6,7 +6,21 @@ return {
 	build = ":TSUpdate",
 	config = function()
 		require("nvim-treesitter.configs").setup({
-			ensure_installed = { "typescript", "javascript", "tsx", "vue", "html", "css", "json", "lua", "vim" },
+			ensure_installed = {
+				"typescript",
+				"scss",
+				"cmake",
+				"gitignore",
+				"cmake",
+				"javascript",
+				"tsx",
+				"vue",
+				"html",
+				"css",
+				"json",
+				"lua",
+				"vim",
+			},
 			highlight = { enable = true },
 			indent = { enable = true },
 			autotag = { enable = true }, -- For nvim-ts-autotag

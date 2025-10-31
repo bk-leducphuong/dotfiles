@@ -52,4 +52,7 @@ return {
 
 	-- TMUX
 	require("plugins.tmux-navigation"),
+
+	-- FIND AND REPLACE
+	require("plugins.spectre"),
 }

@@ -76,3 +76,6 @@ opt.mouse = "a"
 
 -- Conceal level for markdown
 opt.conceallevel = 0
+
+-- opt.spell = true
+-- opt.spelllang = "en_us"

@@ -4,11 +4,8 @@ return {
   event = "VeryLazy",
   opts = {
     input = {
-      enabled = true,
-      default_prompt = "➤ ",
-      win_options = {
-        winblend = 0,
-      },
+      -- Disable dressing input to let noice handle it
+      enabled = false,
     },
     select = {
       enabled = true,
