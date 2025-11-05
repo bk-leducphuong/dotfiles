@@ -3,6 +3,7 @@ return {
 	{
 		"akinsho/git-conflict.nvim",
 		version = "*",
+		event = "VeryLazy", -- Lazy load to reduce startup warnings
 		config = function()
 			require("git-conflict").setup({
 				default_mappings = true,

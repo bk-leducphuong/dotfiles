@@ -17,5 +17,9 @@ return {
 			},
 		})
 		vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+		vim.keymap.set("n", "<leader>r", function()
+			local api = require("nvim-tree.api")
+			api.tree.change_root(api.tree.get_node_under_cursor().absolute_path)
+		end, { desc = "Set folder under cursor as root" })
 	end,
 }

@@ -1,13 +1,14 @@
--- Dressing - Better UI for input and select
+-- Dressing - Better UI for select (input handled by Noice)
 return {
   "stevearc/dressing.nvim",
   event = "VeryLazy",
   opts = {
     input = {
-      -- Disable dressing input to let noice handle it
+      -- Disable dressing input - let Noice handle vim.ui.input
       enabled = false,
     },
     select = {
+      -- Keep select enabled for better UI with Telescope
       enabled = true,
       backend = { "telescope", "builtin" },
       telescope = require("telescope.themes").get_dropdown(),
