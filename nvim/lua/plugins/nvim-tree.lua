@@ -13,7 +13,7 @@ return {
 				group_empty = true,
 			},
 			filters = {
-				custom = { ".git", "node_modules" },
+				custom = { "node_modules" },
 			},
 		})
 		vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })

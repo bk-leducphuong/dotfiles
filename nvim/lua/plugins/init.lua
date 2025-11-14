@@ -55,4 +55,7 @@ return {
 
 	-- FIND AND REPLACE
 	require("plugins.spectre"),
+
+	-- CURSOR ANIMATION
+	require("plugins.smear_cursor"),
 }
