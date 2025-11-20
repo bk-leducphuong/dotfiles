@@ -14,11 +14,6 @@ return {
 
 		return {
 			on_attach = function(client, bufnr)
-				-- Reuse general LSP keymaps if defined globally
-				if vim.g._global_lsp_on_attach then
-					pcall(vim.g._global_lsp_on_attach, client, bufnr)
-				end
-
 				local opts = { buffer = bufnr, silent = true, noremap = true }
 
 				-- TypeScript-specific keymaps
