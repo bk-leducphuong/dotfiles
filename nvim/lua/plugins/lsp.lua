@@ -30,6 +30,7 @@ return {
 					"html", -- HTML
 					"cssls", -- CSS
 					"jsonls", -- JSON (uncommented for better JSON support)
+					"jdtls", -- Java
 					-- "tailwindcss", -- Uncomment if using Tailwind
 				},
 				automatic_installation = false,

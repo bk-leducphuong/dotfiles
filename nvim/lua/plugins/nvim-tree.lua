@@ -17,6 +17,10 @@ return {
 			},
 		})
 		vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
+		vim.keymap.set("n", "?", function()
+			local api = require("nvim-tree.api")
+			api.tree.toggle_help()
+		end, { desc = "Toggle help" })
 		vim.keymap.set("n", "<leader>r", function()
 			local api = require("nvim-tree.api")
 			api.tree.change_root(api.tree.get_node_under_cursor().absolute_path)

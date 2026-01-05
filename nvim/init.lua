@@ -26,6 +26,9 @@ require("lazy").setup("plugins", {
 	},
 })
 
+-- Auto reload files when they change
+vim.autoread = true
+
 -- Load core settings
 require("core.options")
 require("core.keymaps")

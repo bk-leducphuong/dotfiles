@@ -288,6 +288,88 @@ Examples:
 - `<leader>dd` - LazyDocker
 - `<leader>gmi` - Gemini CLI
 
+## 🌐 HTTP Client (Kulala)
+
+### Overview
+
+Kulala.nvim is a powerful HTTP client that lets you test APIs directly from Neovim. Create `.http` or `.rest` files to write and execute HTTP requests.
+
+### Keybindings (in `.http` or `.rest` files)
+
+- `<leader>s` - Send request under cursor (or press `<CR>` on request line)
+- `<leader>a` - Send all requests in file
+- `<leader>b` - Open scratchpad for quick requests
+- `<leader>r` - Replay the last request
+- `<leader>i` - Inspect current request
+- `<leader>c` - Copy request as cURL command
+- `<leader>C` - Paste from cURL
+- `<leader>e` - Select environment
+- `<leader>j` - Open cookies jar
+- `<leader>n` - Jump to next request
+- `<leader>p` - Jump to previous request
+- `<leader>f` - Find/search requests
+
+### Usage Guide
+
+1. **Create an HTTP file**: Create a file with `.http` or `.rest` extension
+   ```bash
+   nvim api-tests.http
+   ```
+
+2. **Write requests**: Use standard HTTP syntax
+   ```http
+   GET https://api.example.com/users/1
+   
+   POST https://api.example.com/users
+   Content-Type: application/json
+   
+   {
+     "name": "John Doe",
+     "email": "john@example.com"
+   }
+   ```
+
+3. **Use variables**: Define variables at the top of your file
+   ```http
+   @baseUrl = https://api.example.com
+   @token = your-token-here
+   
+   GET {{baseUrl}}/users/1
+   Authorization: Bearer {{token}}
+   ```
+
+4. **Send requests**: 
+   - Place cursor on any request line
+   - Press `<leader>s` to send that request
+   - Press `<leader>a` to send all requests sequentially
+
+5. **View responses**: Responses appear in a floating window with syntax highlighting
+
+### Request Syntax
+
+- **Separate requests** with `###` (three hashes)
+- **Comments** start with `###`
+- **Variables** use `@variableName = value` syntax
+- **Use variables** with `{{variableName}}` syntax
+
+### Example File
+
+See `example.http` in your Neovim config directory for comprehensive examples including:
+- GET, POST, PUT, PATCH, DELETE requests
+- Headers and authentication
+- Query parameters
+- JSON bodies
+- Form data
+- File uploads
+
+### Tips
+
+- Keep your API tests organized in `.http` files
+- Use variables for base URLs and tokens
+- Responses are automatically formatted (JSON)
+- You can have multiple requests in one file
+- Use comments (`###`) to organize your requests
+
 ## 🔍 Search & Find
 
 ### Telescope

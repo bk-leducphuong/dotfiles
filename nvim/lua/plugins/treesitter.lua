@@ -20,6 +20,7 @@ return {
 				"json",
 				"lua",
 				"vim",
+				"java", -- Java & Spring Boot
 			},
 			highlight = { enable = true },
 			indent = { enable = true },
