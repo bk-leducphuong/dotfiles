@@ -29,6 +29,7 @@ return {
 					"eslint", -- ESLint
 					"html", -- HTML
 					"cssls", -- CSS
+					"scss",
 					"jsonls", -- JSON (uncommented for better JSON support)
 					"jdtls", -- Java
 					-- "tailwindcss", -- Uncomment if using Tailwind
@@ -37,14 +38,14 @@ return {
 			})
 		end,
 	},
-	
+
 	-- LSP Configuration
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"hrsh7th/cmp-nvim-lsp",
+			"saghen/blink.cmp",
 			"b0o/schemastore.nvim",
 		},
 		config = function()
@@ -92,16 +93,21 @@ return {
 			-- ========================================
 			-- Enhanced Capabilities
 			-- ========================================
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			
-			-- Enhanced completion capabilities
-			capabilities.textDocument.completion.completionItem.snippetSupport = true
-			capabilities.textDocument.completion.completionItem.resolveSupport = {
-				properties = { "documentation", "detail", "additionalTextEdits" },
-			}
+			local capabilities = require("blink.cmp").get_lsp_capabilities({
+				textDocument = {
+					completion = {
+						completionItem = {
+							snippetSupport = true,
+							resolveSupport = {
+								properties = { "documentation", "detail", "additionalTextEdits" },
+							},
+						},
+					},
+				},
+			})
 
 			-- Set default capabilities for all LSP servers
-			vim.lsp.config['*'] = {
+			vim.lsp.config["*"] = {
 				capabilities = capabilities,
 			}
 
@@ -117,54 +123,121 @@ return {
 					-- Enable inlay hints if available (Neovim 0.10+)
 					if client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
 						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-						
+
 						-- Toggle inlay hints keymap
 						vim.keymap.set("n", "<leader>th", function()
-							vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+							vim.lsp.inlay_hint.enable(
+								not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }),
+								{ bufnr = bufnr }
+							)
 						end, vim.tbl_extend("force", opts, { desc = "Toggle Inlay Hints" }))
 					end
 
 					-- Navigation
-					vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<CR>",
-						vim.tbl_extend("force", opts, { desc = "Go to definition" }))
-					vim.keymap.set("n", "gD", vim.lsp.buf.declaration,
-						vim.tbl_extend("force", opts, { desc = "Go to declaration" }))
-					vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<CR>",
-						vim.tbl_extend("force", opts, { desc = "Go to references" }))
-					vim.keymap.set("n", "gi", "<cmd>Telescope lsp_implementations<CR>",
-						vim.tbl_extend("force", opts, { desc = "Go to implementation" }))
-					vim.keymap.set("n", "gt", "<cmd>Telescope lsp_type_definitions<CR>",
-						vim.tbl_extend("force", opts, { desc = "Go to type definition" }))
+					vim.keymap.set(
+						"n",
+						"gd",
+						"<cmd>Telescope lsp_definitions<CR>",
+						vim.tbl_extend("force", opts, { desc = "Go to definition" })
+					)
+					vim.keymap.set(
+						"n",
+						"gD",
+						vim.lsp.buf.declaration,
+						vim.tbl_extend("force", opts, { desc = "Go to declaration" })
+					)
+					vim.keymap.set(
+						"n",
+						"gr",
+						"<cmd>Telescope lsp_references<CR>",
+						vim.tbl_extend("force", opts, { desc = "Go to references" })
+					)
+					vim.keymap.set(
+						"n",
+						"gi",
+						"<cmd>Telescope lsp_implementations<CR>",
+						vim.tbl_extend("force", opts, { desc = "Go to implementation" })
+					)
+					vim.keymap.set(
+						"n",
+						"gt",
+						"<cmd>Telescope lsp_type_definitions<CR>",
+						vim.tbl_extend("force", opts, { desc = "Go to type definition" })
+					)
 
 					-- Hover and help
-					vim.keymap.set("n", "K", vim.lsp.buf.hover,
-						vim.tbl_extend("force", opts, { desc = "Hover documentation" }))
-					vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help,
-						vim.tbl_extend("force", opts, { desc = "Signature help" }))
+					vim.keymap.set(
+						"n",
+						"K",
+						vim.lsp.buf.hover,
+						vim.tbl_extend("force", opts, { desc = "Hover documentation" })
+					)
+					vim.keymap.set(
+						"n",
+						"<C-k>",
+						vim.lsp.buf.signature_help,
+						vim.tbl_extend("force", opts, { desc = "Signature help" })
+					)
 
 					-- Code actions
-					vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action,
-						vim.tbl_extend("force", opts, { desc = "Code action" }))
-					vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename,
-						vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
+					vim.keymap.set(
+						{ "n", "v" },
+						"<leader>ca",
+						vim.lsp.buf.code_action,
+						vim.tbl_extend("force", opts, { desc = "Code action" })
+					)
+					vim.keymap.set(
+						"n",
+						"<leader>rn",
+						vim.lsp.buf.rename,
+						vim.tbl_extend("force", opts, { desc = "Rename symbol" })
+					)
 
 					-- Diagnostics
-					vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float,
-						vim.tbl_extend("force", opts, { desc = "Show diagnostics" }))
-					vim.keymap.set("n", "[d", vim.diagnostic.goto_prev,
-						vim.tbl_extend("force", opts, { desc = "Previous diagnostic" }))
-					vim.keymap.set("n", "]d", vim.diagnostic.goto_next,
-						vim.tbl_extend("force", opts, { desc = "Next diagnostic" }))
-					vim.keymap.set("n", "<leader>dl", vim.diagnostic.setloclist,
-						vim.tbl_extend("force", opts, { desc = "Diagnostics location list" }))
-					vim.keymap.set("n", "<leader>dq", vim.diagnostic.setqflist,
-						vim.tbl_extend("force", opts, { desc = "Diagnostics quickfix list" }))
+					vim.keymap.set(
+						"n",
+						"<leader>d",
+						vim.diagnostic.open_float,
+						vim.tbl_extend("force", opts, { desc = "Show diagnostics" })
+					)
+					vim.keymap.set(
+						"n",
+						"[d",
+						vim.diagnostic.goto_prev,
+						vim.tbl_extend("force", opts, { desc = "Previous diagnostic" })
+					)
+					vim.keymap.set(
+						"n",
+						"]d",
+						vim.diagnostic.goto_next,
+						vim.tbl_extend("force", opts, { desc = "Next diagnostic" })
+					)
+					vim.keymap.set(
+						"n",
+						"<leader>dl",
+						vim.diagnostic.setloclist,
+						vim.tbl_extend("force", opts, { desc = "Diagnostics location list" })
+					)
+					vim.keymap.set(
+						"n",
+						"<leader>dq",
+						vim.diagnostic.setqflist,
+						vim.tbl_extend("force", opts, { desc = "Diagnostics quickfix list" })
+					)
 
 					-- Workspace
-					vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder,
-						vim.tbl_extend("force", opts, { desc = "Add workspace folder" }))
-					vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder,
-						vim.tbl_extend("force", opts, { desc = "Remove workspace folder" }))
+					vim.keymap.set(
+						"n",
+						"<leader>wa",
+						vim.lsp.buf.add_workspace_folder,
+						vim.tbl_extend("force", opts, { desc = "Add workspace folder" })
+					)
+					vim.keymap.set(
+						"n",
+						"<leader>wr",
+						vim.lsp.buf.remove_workspace_folder,
+						vim.tbl_extend("force", opts, { desc = "Remove workspace folder" })
+					)
 					vim.keymap.set("n", "<leader>wl", function()
 						print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 					end, vim.tbl_extend("force", opts, { desc = "List workspace folders" }))
@@ -177,10 +250,18 @@ return {
 					end
 
 					-- Document symbols
-					vim.keymap.set("n", "<leader>ds", "<cmd>Telescope lsp_document_symbols<CR>",
-						vim.tbl_extend("force", opts, { desc = "Document symbols" }))
-					vim.keymap.set("n", "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols<CR>",
-						vim.tbl_extend("force", opts, { desc = "Workspace symbols" }))
+					vim.keymap.set(
+						"n",
+						"<leader>ds",
+						"<cmd>Telescope lsp_document_symbols<CR>",
+						vim.tbl_extend("force", opts, { desc = "Document symbols" })
+					)
+					vim.keymap.set(
+						"n",
+						"<leader>ws",
+						"<cmd>Telescope lsp_dynamic_workspace_symbols<CR>",
+						vim.tbl_extend("force", opts, { desc = "Workspace symbols" })
+					)
 
 					-- Highlight symbol under cursor
 					if client.server_capabilities.documentHighlightProvider then
@@ -204,8 +285,16 @@ return {
 			-- Volar (Vue) - Hybrid Mode
 			-- ========================================
 			vim.lsp.config.volar = {
-				cmd = { 'vue-language-server', '--stdio' },
-				root_dir = vim.fs.root(0, { "vue.config.js", "vite.config.ts", "vite.config.js", "nuxt.config.ts", "nuxt.config.js", "package.json", ".git" }),
+				cmd = { "vue-language-server", "--stdio" },
+				root_dir = vim.fs.root(0, {
+					"vue.config.js",
+					"vite.config.ts",
+					"vite.config.js",
+					"nuxt.config.ts",
+					"nuxt.config.js",
+					"package.json",
+					".git",
+				}),
 				filetypes = { "vue" },
 				init_options = {
 					vue = {
@@ -241,14 +330,21 @@ return {
 				},
 			}
 
-			vim.lsp.enable('volar')
+			vim.lsp.enable("volar")
 
 			-- ========================================
 			-- ESLint - Enhanced Configuration
 			-- ========================================
 			vim.lsp.config.eslint = {
-				cmd = { 'vscode-eslint-language-server', '--stdio' },
-				root_dir = vim.fs.root(0, { ".eslintrc", ".eslintrc.js", ".eslintrc.json", "eslint.config.js", "package.json" }),
+				cmd = { "vscode-eslint-language-server", "--stdio" },
+				root_dir = vim.fs.root(0, {
+					".eslintrc",
+					".eslintrc.js",
+					".eslintrc.json",
+					"eslint.config.js",
+					"eslint.config.mjs",
+					"package.json",
+				}),
 				settings = {
 					codeAction = {
 						disableRuleComment = {
@@ -284,43 +380,34 @@ return {
 				},
 			}
 
-			vim.lsp.enable('eslint')
-
-			-- Auto-fix on save
-			vim.api.nvim_create_autocmd("LspAttach", {
-				callback = function(args)
-					local client = vim.lsp.get_client_by_id(args.data.client_id)
-					if client and client.name == "eslint" then
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							buffer = args.buf,
-							command = "EslintFixAll",
-						})
-					end
-				end,
-			})
-
+			vim.lsp.enable("eslint")
 			-- ========================================
 			-- HTML
 			-- ========================================
 			vim.lsp.config.html = {
-				cmd = { 'vscode-html-language-server', '--stdio' },
+				cmd = { "vscode-html-language-server", "--stdio" },
 				root_dir = vim.fs.root(0, { "package.json", ".git" }),
 				filetypes = { "html", "vue" },
 			}
 
-			vim.lsp.enable('html')
+			vim.lsp.enable("html")
 
 			-- ========================================
-			-- CSS
+			-- CSS / SCSS / LESS
 			-- ========================================
 			vim.lsp.config.cssls = {
-				cmd = { 'vscode-css-language-server', '--stdio' },
+				cmd = { "vscode-css-language-server", "--stdio" },
 				root_dir = vim.fs.root(0, { "package.json", ".git" }),
+				filetypes = { "css", "scss", "sass", "less" },
 				settings = {
 					css = {
 						validate = true,
 						lint = {
 							unknownAtRules = "ignore",
+						},
+						completion = {
+							completePropertyWithSemicolon = true,
+							triggerPropertyValueCompletion = true,
 						},
 					},
 					scss = {
@@ -328,23 +415,31 @@ return {
 						lint = {
 							unknownAtRules = "ignore",
 						},
+						completion = {
+							completePropertyWithSemicolon = true,
+							triggerPropertyValueCompletion = true,
+						},
 					},
 					less = {
 						validate = true,
 						lint = {
 							unknownAtRules = "ignore",
 						},
+						completion = {
+							completePropertyWithSemicolon = true,
+							triggerPropertyValueCompletion = true,
+						},
 					},
 				},
 			}
 
-			vim.lsp.enable('cssls')
+			vim.lsp.enable("cssls")
 
 			-- ========================================
 			-- JSON with SchemaStore
 			-- ========================================
 			vim.lsp.config.jsonls = {
-				cmd = { 'vscode-json-language-server', '--stdio' },
+				cmd = { "vscode-json-language-server", "--stdio" },
 				root_dir = vim.fs.root(0, { "package.json", ".git" }),
 				filetypes = { "json", "jsonc" },
 				settings = {
@@ -356,7 +451,7 @@ return {
 				},
 			}
 
-			vim.lsp.enable('jsonls')
+			vim.lsp.enable("jsonls")
 
 			-- ========================================
 			-- Tailwind CSS (Uncomment if needed)

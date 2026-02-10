@@ -10,6 +10,10 @@ return {
         javascriptreact = { "eslint_d" },
         typescriptreact = { "eslint_d" },
         vue = { "eslint_d" },
+        css = { "stylelint" },
+        scss = { "stylelint" },
+        sass = { "stylelint" },
+        less = { "stylelint" },
       }
 
       vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {

@@ -126,14 +126,14 @@ return {
 				},
 
 				-- Notification views
-				notify = {
-					backend = "notify",
-					fallback = "mini",
-					position = {
-						row = 1,
-						col = "100%",
-					},
-				},
+				-- notify = {
+				-- 	backend = "notify",
+				-- 	fallback = "mini",
+				-- 	position = {
+				-- 		row = 1,
+				-- 		col = "100%",
+				-- 	},
+				-- },
 
 				mini = {
 					position = {
@@ -185,8 +185,8 @@ return {
 	{
 		"rcarriga/nvim-notify",
 		opts = {
-			timeout = 5000,
-			top_down = true,
+			timeout = 3000,
+			top_down = false,
 			stages = "fade_in_slide_out",
 			render = "default",
 			max_width = 50,

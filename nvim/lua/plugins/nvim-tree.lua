@@ -15,6 +15,7 @@ return {
 			filters = {
 				custom = { "node_modules" },
 			},
+			auto_reload_on_write = true,
 		})
 		vim.keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { desc = "Toggle file explorer" })
 		vim.keymap.set("n", "?", function()
