@@ -11,12 +11,6 @@ keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split horizontally" })
 keymap.set("n", "<leader>se", "<C-w>=", { desc = "Equal width" })
 keymap.set("n", "<leader>sx", ":close<CR>", { desc = "Close split" })
 
--- Navigate between splits
--- keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
--- keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
--- keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
--- keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
-
 -- Tab management
 keymap.set("n", "<leader>to", ":tabnew<CR>", { desc = "Open new tab" })
 keymap.set("n", "<leader>tx", ":tabclose<CR>", { desc = "Close tab" })
@@ -72,3 +66,14 @@ keymap.set("n", "]q", ":cnext<CR>", { desc = "Next quickfix" })
 -- Location list navigation
 keymap.set("n", "[l", ":lprev<CR>", { desc = "Previous location" })
 keymap.set("n", "]l", ":lnext<CR>", { desc = "Next location" })
+
+-- Avante AI keymaps
+keymap.set("n", "<leader>aa", ":AvanteAsk<CR>", { desc = "Avante: Ask AI" })
+keymap.set("v", "<leader>aa", ":AvanteAsk<CR>", { desc = "Avante: Ask AI with selection" })
+keymap.set("n", "<leader>at", ":AvanteToggle<CR>", { desc = "Avante: Toggle sidebar" })
+keymap.set("n", "<leader>ar", ":AvanteRefresh<CR>", { desc = "Avante: Refresh" })
+keymap.set("n", "<leader>af", ":AvanteFocus<CR>", { desc = "Avante: Focus sidebar" })
+keymap.set("n", "<leader>ae", ":AvanteEdit<CR>", { desc = "Avante: Edit with AI" })
+keymap.set("v", "<leader>ae", ":AvanteEdit<CR>", { desc = "Avante: Edit selection with AI" })
+keymap.set("n", "<leader>ac", ":AvanteChat<CR>", { desc = "Avante: Open chat" })
+keymap.set("n", "<leader>as", ":AvanteSwitchProvider<CR>", { desc = "Avante: Switch AI provider" })

@@ -182,14 +182,4 @@ return {
 			{ "<leader>snd", "<cmd>NoiceDismiss<cr>", desc = "Dismiss All Notifications" },
 		},
 	},
-	{
-		"rcarriga/nvim-notify",
-		opts = {
-			timeout = 3000,
-			top_down = false,
-			stages = "fade_in_slide_out",
-			render = "default",
-			max_width = 50,
-		},
-	},
 }

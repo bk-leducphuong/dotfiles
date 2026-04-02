@@ -1,0 +1,130 @@
+### Kulala HTTP Client Examples
+
+
+### This file demonstrates how to use kulala.nvim as an HTTP client
+
+
+### Place your cursor on a request line and press <leader>s to send it
+
+
+### Variables (define at the top of your file)
+
+@apiKey = your-api-key-here
+@baseUrl = https://jsonplaceholder.typicode.com
+
+
+### GET Request - Simple
+
+GET https://jsonplaceholder.typicode.com/posts/1 HTTP/1.1
+
+
+### GET Request - With Variables
+
+GET {{baseUrl}}/posts/1 HTTP/1.1
+
+
+### GET Request - With Query Parameters
+
+GET {{baseUrl}}/posts?userId=1&_limit=5 HTTP/1.1
+
+
+### POST Request - Create a new post
+
+POST {{baseUrl}}/posts HTTP/1.1
+Content-Type: application/json
+
+{
+  "body": "This is the body of my post",
+  "title": "My New Post",
+  "userId": 1
+}
+
+
+### PUT Request - Update existing post
+
+PUT {{baseUrl}}/posts/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "body": "Updated body content",
+  "id": 1,
+  "title": "Updated Post Title",
+  "userId": 1
+}
+
+
+### PATCH Request - Partial update
+
+PATCH {{baseUrl}}/posts/1 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "Partially Updated Title"
+}
+
+
+### DELETE Request
+
+DELETE {{baseUrl}}/posts/1 HTTP/1.1
+
+
+### Request with Headers
+
+GET {{baseUrl}}/posts/1 HTTP/1.1
+Authorization: Bearer {{apiKey}}
+X-Custom-Header: custom-value
+
+
+### Request with Multiple Headers
+
+POST {{baseUrl}}/posts HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{apiKey}}
+X-Request-Id: 12345
+
+{
+  "body": "Content here",
+  "title": "Post with custom headers",
+  "userId": 1
+}
+
+
+### Request with Form Data
+
+POST https://httpbin.org/post HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+name=John&
+email=john@example.com&
+age=30
+
+
+### Request with File Upload (multipart/form-data)
+
+POST https://httpbin.org/post HTTP/1.1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="example.txt"
+Content-Type: text/plain
+
+(file content here)
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+
+### Comments
+
+
+### You can add comments anywhere using ###
+
+
+### They help organize your requests
+
+
+### Separator
+
+
+### Use ### to separate different requests
+
+
+### This helps kulala identify individual requests

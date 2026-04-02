@@ -32,3 +32,9 @@ vim.autoread = true
 -- Load core settings
 require("core.options")
 require("core.keymaps")
+
+-- Colorscheme
+vim.cmd("colorscheme habamax")
+
+-- Remove nvim-tree separator line
+vim.api.nvim_set_hl(0, "WinSeparator", { fg = "#000000", bg = "NONE" })
