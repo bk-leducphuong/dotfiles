@@ -44,4 +44,7 @@ return {
 
 	-- HTTP CLIENT
 	require("plugins.kulala"), -- HTTP client for Neovim
+
+	-- IMAGE VIEWER
+	require("plugins.image"),
 }
