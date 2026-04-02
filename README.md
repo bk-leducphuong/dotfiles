@@ -96,7 +96,33 @@ Leader key: `Space`
 
 ## Installation
 
-### Prerequisites
+### Quick Install (Automated)
+
+The easiest way to set up everything on Ubuntu:
+
+```bash
+# Clone this repository
+git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+
+# Run the installation script
+cd ~/dotfiles
+./install.sh
+```
+
+The script will automatically:
+- Install Neovim, tmux, and Zsh
+- Install Oh My Zsh and plugins
+- Install NVM for Node.js management
+- Install ripgrep, lazygit, and FiraCode Nerd Font
+- Create symlinks for all configurations
+- Backup your existing configurations
+- Set Zsh as your default shell
+
+### Manual Installation
+
+If you prefer to install manually:
+
+#### Prerequisites
 
 - Neovim >= 0.9
 - tmux >= 3.0
@@ -106,7 +132,7 @@ Leader key: `Space`
 - ripgrep (for Telescope grep)
 - A Nerd Font for icons
 
-### Setup
+#### Setup
 
 1. Clone this repository:
 
@@ -114,27 +140,43 @@ Leader key: `Space`
 git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
 ```
 
-2. Symlink configurations:
+2. Install packages:
+
+```bash
+sudo apt update
+sudo apt install -y neovim tmux zsh git curl ripgrep fd-find xclip
+```
+
+3. Symlink configurations:
 
 ```bash
 # Neovim
-ln -s ~/dotfiles/nvim ~/.config/nvim
+ln -sf ~/dotfiles/nvim ~/.config/nvim
 
 # tmux
-ln -s ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
+ln -sf ~/dotfiles/tmux/.tmux.conf ~/.tmux.conf
 
-# Zsh (backup your existing .zshrc first)
-cp ~/dotfiles/zshrc.txt ~/.zshrc
+# Zsh
+ln -sf ~/dotfiles/zsh/.zshrc ~/.zshrc
 ```
 
-3. Install tmux plugins:
+4. Install tmux plugins:
 
 ```bash
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 # Then press prefix + I inside tmux to install plugins
 ```
 
-4. Open Neovim and let lazy.nvim install all plugins automatically.
+5. Open Neovim and let lazy.nvim install all plugins automatically.
+
+### Uninstall
+
+To remove the symlinked configurations:
+
+```bash
+cd ~/dotfiles
+./uninstall.sh
+```
 
 ## Directory Structure
 
