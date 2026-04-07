@@ -1,0 +1,118 @@
+{
+  "security.workspace.trust.enabled": true,
+  "explorer.confirmDelete": false,
+  "terminal.integrated.automationProfile.windows": {},
+  "terminal.integrated.scrollback": 100000000,
+  "window.customTitleBarVisibility": "windowed",
+  "explorer.compactFolders": false,
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "python.createEnvironment.trigger": "off",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": true,
+    "markdown": false,
+    "scminput": false
+  },
+  "supermaven.enable": {
+    "*": true
+  },
+  "supermaven.otherWarning": false,
+  "supermaven.allowGitignore": true,
+  "git.openRepositoryInParentFolders": "never",
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.minimap.enabled": false,
+  "terminal.integrated.suggest.enabled": true,
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "containers.containerClient": "com.microsoft.visualstudio.containers.docker",
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  "explorer.confirmPasteNative": false,
+  "workbench.editor.empty.hint": "hidden",
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "workbench.editorAssociations": {
+    "*.copilotmd": "vscode.markdown.preview.editor",
+    "*.json": "default"
+  },
+  "chat.instructionsFilesLocations": {
+    ".github/instructions": true,
+    "/tmp/postman-collections-post-response.instructions.md": true,
+    "/tmp/postman-collections-pre-request.instructions.md": true,
+    "/tmp/postman-folder-post-response.instructions.md": true,
+    "/tmp/postman-folder-pre-request.instructions.md": true,
+    "/tmp/postman-http-request-post-response.instructions.md": true,
+    "/tmp/postman-http-request-pre-request.instructions.md": true
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "workbench.colorTheme": "GitHub Dark",
+  "files.associations": {
+    ".env*": "dotenv"
+  },
+  "editor.tokenColorCustomizations": {
+    "[*Light*]": {
+      "textMateRules": [
+        {
+          "scope": "ref.matchtext",
+          "settings": {
+            "foreground": "#000"
+          }
+        }
+      ]
+    },
+    "[*Dark*]": {
+      "textMateRules": [
+        {
+          "scope": "ref.matchtext",
+          "settings": {
+            "foreground": "#fff"
+          }
+        }
+      ]
+    },
+    "textMateRules": []
+  },
+  "dotenv.enableAutocloaking": false,
+  "workbench.iconTheme": "vscode-icons",
+  "[dockercompose]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "[github-actions-workflow]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  "makefile.configureOnOpen": true,
+  "chat.viewSessions.orientation": "stacked",
+  "editor.allowVariableFontsInAccessibilityMode": true,
+  "workbench.settings.applyToAllProfiles": ["editor.fontFamily"],
+  "editor.fontFamily": "'JetBrains Mono', monospace",
+  "editor.fontSize": 14,
+  "editor.fontWeight": "400",
+  "editor.fontLigatures": true,
+  "editor.letterSpacing": 0.5,
+  "editor.lineHeight": 22,
+  "workbench.appearance.fontAliasing": "antialiased"
+}
