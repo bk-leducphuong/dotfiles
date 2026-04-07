@@ -1,39 +1,35 @@
--- lua/plugins/formatter.lua
-
+-- Extends LazyVim conform (do not set format_on_save — LazyVim handles format-on-save)
 return {
-	"stevearc/conform.nvim",
-	event = { "BufWritePre" }, -- Run on save
-	cmd = { "ConformInfo" },
-	opts = {
-		-- Map filetypes to formatters
-		formatters_by_ft = {
-			lua = { "stylua" },
-			-- Conform will run multiple formatters sequentially
-			typescript = { "prettier" },
-			typescriptreact = { "prettier" },
-			javascript = { "prettier" },
-			javascriptreact = { "prettier" },
-			vue = { "prettier" },
-			css = { "prettier" },
-			scss = { "prettier" },
-			html = { "prettier" },
-			json = { "prettier" },
-			yaml = { "prettier" },
-			markdown = { "prettier" },
-			graphql = { "prettier" },
-			python = { "isort", "black" },
-		},
-		-- Set up format-on-save
-		format_on_save = {
-			-- These options will be passed to conform.format()
-			timeout_ms = 1000,
-			lsp_fallback = false, -- Fallback to LSP formatting if conform fails
-		},
-	},
-	init = function()
-		-- Add a keymap for manual formatting
-		vim.keymap.set({ "n", "v" }, "<leader>fm", function()
-			require("conform").format({ async = true, lsp_fallback = true })
-		end, { desc = "Format file or range" })
-	end,
+  {
+    "stevearc/conform.nvim",
+    optional = true,
+    opts = function(_, opts)
+      opts.formatters_by_ft = vim.tbl_deep_extend("force", opts.formatters_by_ft or {}, {
+        typescript = { "prettier" },
+        typescriptreact = { "prettier" },
+        javascript = { "prettier" },
+        javascriptreact = { "prettier" },
+        vue = { "prettier" },
+        css = { "prettier" },
+        scss = { "prettier" },
+        html = { "prettier" },
+        json = { "prettier" },
+        yaml = { "prettier" },
+        markdown = { "prettier" },
+        graphql = { "prettier" },
+        python = { "isort", "black" },
+      })
+      return opts
+    end,
+    keys = {
+      {
+        "<leader>fm",
+        function()
+          require("conform").format({ async = true, lsp_fallback = true })
+        end,
+        mode = { "n", "v" },
+        desc = "Format buffer or range",
+      },
+    },
+  },
 }

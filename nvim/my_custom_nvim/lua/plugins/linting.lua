@@ -1,10 +1,10 @@
--- Extends LazyVim's nvim-lint: eslint_d / stylelint per filetype
 return {
-  {
     "mfussenegger/nvim-lint",
-    optional = true,
-    opts = function(_, opts)
-      opts.linters_by_ft = vim.tbl_deep_extend("force", opts.linters_by_ft or {}, {
+    event = { "BufReadPre", "BufNewFile" },
+    config = function()
+      local lint = require("lint")
+      
+      lint.linters_by_ft = {
         javascript = { "eslint_d" },
         typescript = { "eslint_d" },
         javascriptreact = { "eslint_d" },
@@ -14,8 +14,12 @@ return {
         scss = { "stylelint" },
         sass = { "stylelint" },
         less = { "stylelint" },
+      }
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
+        callback = function()
+          lint.try_lint()
+        end,
       })
-      return opts
     end,
-  },
-}
+  }
